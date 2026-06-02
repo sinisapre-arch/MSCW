@@ -1,0 +1,2398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siniša Predragović - Designer & Entrepreneur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.05s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.hover {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.1s ease;
+        }
+
+        .cursor.dragging {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            transition: none;
+        }
+
+        /* Hide cursor in modals */
+        .project-modal {
+            cursor: auto;
+        }
+
+        .project-modal * {
+            cursor: auto !important;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.8);
+            transition: all 0.5s ease;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav a:hover {
+            color: #888;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            gap: 15px;
+            margin-left: 40px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #666;
+            padding: 8px 12px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            color: #fff;
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)), url('./IMG_3082-topaz-face-upscale-2x.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 12rem);
+            font-weight: 100;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 200;
+            letter-spacing: 0.1em;
+            color: #888;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.3s forwards;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 80px;
+            color: #aaa;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease 0.6s forwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 2s ease 1s forwards;
+        }
+
+        .scroll-text {
+            font-size: 12px;
+            letter-spacing: 2px;
+            writing-mode: vertical-rl;
+            color: #666;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, #666, transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        /* Process Section */
+        .process {
+            min-height: 100vh;
+            padding: 150px 50px;
+            background: #050505;
+        }
+
+        .process-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .process-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .process-header.animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s ease;
+        }
+
+        .section-number {
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 100;
+            line-height: 1;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin-top: 100px;
+        }
+
+        .process-step {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: all 0.8s ease;
+            position: relative;
+        }
+
+        .process-step.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover .step-icon {
+            transform: scale(1.1);
+        }
+
+        .step-icon .icon-container {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Drone Icon */
+        .drone-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drone-body {
+            width: 40px;
+            height: 20px;
+            background: #666;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .drone-rotor {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            position: absolute;
+            animation: rotor-spin 2s linear infinite;
+        }
+
+        .rotor-1 { top: -4px; left: -4px; }
+        .rotor-2 { top: -4px; right: -4px; }
+        .rotor-3 { bottom: -4px; left: -4px; }
+        .rotor-4 { bottom: -4px; right: -4px; }
+
+        .drone-camera {
+            width: 6px;
+            height: 6px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Point Cloud Icon */
+        .pointcloud-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .point-dot {
+            width: 4px;
+            height: 4px;
+            background: #666;
+            border-radius: 50%;
+            position: absolute;
+            animation: point-float 3s ease-in-out infinite;
+        }
+
+        .dot-1 { top: 10px; left: 10px; animation-delay: 0s; }
+        .dot-2 { top: 20px; left: 30px; animation-delay: 0.3s; }
+        .dot-3 { top: 40px; left: 15px; animation-delay: 0.6s; }
+        .dot-4 { top: 15px; left: 45px; animation-delay: 0.9s; }
+        .dot-5 { top: 35px; left: 35px; animation-delay: 1.2s; }
+        .dot-6 { top: 25px; left: 25px; animation-delay: 1.5s; }
+        .dot-7 { top: 45px; left: 25px; animation-delay: 1.8s; }
+        .dot-8 { top: 5px; left: 35px; animation-delay: 2.1s; }
+        .dot-9 { top: 30px; left: 5px; animation-delay: 2.4s; }
+        .dot-10 { top: 15px; left: 20px; animation-delay: 2.7s; }
+
+        /* Mapping Icon */
+        .mapping-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .satellite-dish {
+            width: 30px;
+            height: 20px;
+            background: #666;
+            border-radius: 15px 15px 0 0;
+            position: relative;
+        }
+
+        .signal-wave {
+            width: 20px;
+            height: 2px;
+            background: #666;
+            position: absolute;
+            right: -20px;
+            animation: signal-pulse 2s ease-in-out infinite;
+        }
+
+        .wave-1 { top: 5px; animation-delay: 0s; }
+        .wave-2 { top: 10px; animation-delay: 0.3s; }
+        .wave-3 { top: 15px; animation-delay: 0.6s; }
+
+        /* 3D Design Icon */
+        .design-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 100px;
+        }
+
+        .cube-face {
+            width: 20px;
+            height: 20px;
+            background: #666;
+            position: absolute;
+            animation: cube-rotate 4s linear infinite;
+        }
+
+        .front { transform: translateZ(10px); }
+        .back { transform: translateZ(-10px); }
+        .left { transform: rotateY(-90deg) translateZ(10px); }
+        .right { transform: rotateY(90deg) translateZ(10px); }
+        .top { transform: rotateX(90deg) translateZ(10px); }
+        .bottom { transform: rotateX(-90deg) translateZ(10px); }
+
+        /* Visualization Icon */
+        .visualization-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen-frame {
+            width: 35px;
+            height: 25px;
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .screen-content {
+            width: 25px;
+            height: 15px;
+            background: #666;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            border-radius: 1px;
+        }
+
+        .screen-glow {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            position: absolute;
+            animation: screen-scan 3s ease-in-out infinite;
+        }
+
+        /* Construction Icon */
+        .construction-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .crane-arm {
+            width: 30px;
+            height: 3px;
+            background: #666;
+            position: absolute;
+            top: 20px;
+            transform: rotate(-15deg);
+        }
+
+        .crane-base {
+            width: 8px;
+            height: 25px;
+            background: #666;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .building-outline {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #666;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .construction-dots {
+            width: 4px;
+            height: 4px;
+            background: #666;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            animation: construction-pulse 2s ease-in-out infinite;
+        }
+
+        /* Hover effects */
+        .process-step:hover .icon-container {
+            transform: scale(1.1);
+        }
+
+        .process-step:hover .drone-body,
+        .process-step:hover .drone-rotor,
+        .process-step:hover .point-dot,
+        .process-step:hover .satellite-dish,
+        .process-step:hover .signal-wave,
+        .process-step:hover .cube-face,
+        .process-step:hover .screen-frame,
+        .process-step:hover .screen-content,
+        .process-step:hover .crane-arm,
+        .process-step:hover .crane-base,
+        .process-step:hover .building-outline,
+        .process-step:hover .construction-dots {
+            background: #fff;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.6;
+            max-width: 250px;
+            margin: 0 auto;
+        }
+
+        .software-logos {
+            margin-top: 100px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .software-logos.animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 1s ease 0.5s;
+        }
+
+        .logos-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .logos-grid {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .logo-item {
+            padding: 30px 25px;
+            border: 1px solid #222;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
+        }
+
+        .logo-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .logo-item:hover::before {
+            left: 100%;
+        }
+
+        .logo-item:hover {
+            border-color: #444;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .logo-symbol {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .revit { background: linear-gradient(45deg, #0696D7, #0078C7); }
+        .autocad { background: linear-gradient(45deg, #E51717, #C41E1E); }
+        .twinmotion { background: linear-gradient(45deg, #00D4FF, #0099CC); }
+        .d5render { background: linear-gradient(45deg, #FF6B35, #FF4500); }
+        .unreal { background: linear-gradient(45deg, #313131, #000000); }
+
+        .logo-name {
+            font-size: 12px;
+            color: #aaa;
+            letter-spacing: 1px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Experience Counter Section */
+        .experience-counter {
+            min-height: 60vh;
+            padding: 100px 50px;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-container {
+            display: flex;
+            gap: 120px;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .counter-item {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .counter-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .counter-number {
+            font-size: clamp(4rem, 8vw, 8rem);
+            font-weight: 100;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .counter-symbol {
+            font-size: clamp(2rem, 4vw, 4rem);
+            font-weight: 100;
+            color: #666;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        .counter-label {
+            font-size: 14px;
+            color: #888;
+            letter-spacing: 3px;
+            font-weight: 300;
+            margin-top: 20px;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            min-height: 100vh;
+            padding: 150px 50px;
+            background: #0a0a0a;
+        }
+
+        .portfolio-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .portfolio-category {
+            margin-bottom: 120px;
+        }
+
+        .category-title {
+            font-size: 3rem;
+            font-weight: 100;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .category-description {
+            text-align: center;
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 80px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 60px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #444;
+            transform: translateY(-10px);
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .project-location {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .project-description {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* Before/After Slider */
+        .before-after-slider {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .before-image, .after-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .after-image {
+            clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: #fff;
+            cursor: ew-resize;
+            z-index: 10;
+            transform: translateX(-50%);
+            user-select: none;
+        }
+
+        .slider-handle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .slider-handle::after {
+            content: '⟷';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .slider-labels {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 5;
+        }
+
+        .slider-label {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Hide BEFORE/AFTER labels on sliders */
+        .slider-labels {
+            display: none;
+        }
+
+        /* Project Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            overflow-y: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .project-modal.show {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 1200px;
+            width: 90%;
+            margin: 50px auto;
+            padding: 50px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        .modal-title {
+            font-size: 3rem;
+            font-weight: 100;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-location {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .modal-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .modal-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact {
+            min-height: 100vh;
+            padding: 150px 50px;
+            background: #050505;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contact-title {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 100;
+            line-height: 1;
+            margin-bottom: 60px;
+            letter-spacing: -0.02em;
+        }
+
+
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .service-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .service-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .service-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .service-item p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ccc;
+            margin: 0;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* 3D Design Icon */
+        .icon-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            perspective: 60px;
+        }
+
+        .cube-3d {
+            width: 20px;
+            height: 20px;
+            background: #666;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: service-cube-rotate 6s linear infinite;
+        }
+
+        .cube-3d.front { transform: translate(-50%, -50%) translateZ(10px); }
+        .cube-3d.back { transform: translate(-50%, -50%) translateZ(-10px); }
+        .cube-3d.left { transform: translate(-50%, -50%) rotateY(-90deg) translateZ(10px); }
+        .cube-3d.right { transform: translate(-50%, -50%) rotateY(90deg) translateZ(10px); }
+        .cube-3d.top { transform: translate(-50%, -50%) rotateX(90deg) translateZ(10px); }
+        .cube-3d.bottom { transform: translate(-50%, -50%) rotateX(-90deg) translateZ(10px); }
+
+        /* Drone Icon */
+        .icon-drone {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .drone-service-body {
+            width: 25px;
+            height: 12px;
+            background: #666;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .drone-service-rotor {
+            width: 6px;
+            height: 6px;
+            background: #666;
+            border-radius: 50%;
+            position: absolute;
+            animation: service-rotor-spin 3s linear infinite;
+        }
+
+        .drone-service-rotor.r1 { top: -3px; left: -3px; }
+        .drone-service-rotor.r2 { top: -3px; right: -3px; }
+        .drone-service-rotor.r3 { bottom: -3px; left: -3px; }
+        .drone-service-rotor.r4 { bottom: -3px; right: -3px; }
+
+        /* Survey Icon */
+        .icon-survey {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tripod-leg {
+            width: 2px;
+            height: 20px;
+            background: #666;
+            position: absolute;
+            bottom: 0;
+            transform-origin: bottom;
+        }
+
+        .tripod-leg.leg1 { transform: rotate(-30deg); }
+        .tripod-leg.leg2 { transform: rotate(30deg); }
+        .tripod-leg.leg3 { transform: rotate(90deg); }
+
+        .survey-device {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Management Icon */
+        .icon-management {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-bar {
+            width: 4px;
+            background: #666;
+            position: absolute;
+            bottom: 0;
+            animation: chart-grow 2s ease-in-out infinite;
+        }
+
+        .chart-bar.bar1 { height: 15px; left: 15px; animation-delay: 0s; }
+        .chart-bar.bar2 { height: 25px; left: 22px; animation-delay: 0.3s; }
+        .chart-bar.bar3 { height: 20px; left: 29px; animation-delay: 0.6s; }
+
+        .chart-line {
+            width: 20px;
+            height: 2px;
+            background: #666;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Equipment Icon */
+        .icon-equipment {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .excavator-arm {
+            width: 20px;
+            height: 3px;
+            background: #666;
+            position: absolute;
+            top: 20px;
+            transform: rotate(-20deg);
+        }
+
+        .excavator-cabin {
+            width: 12px;
+            height: 15px;
+            background: #666;
+            border-radius: 3px;
+            position: absolute;
+            top: 25px;
+        }
+
+        .excavator-track {
+            width: 20px;
+            height: 8px;
+            background: #666;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* Hover effects */
+        .service-item:hover .service-icon .cube-3d,
+        .service-item:hover .service-icon .drone-service-body,
+        .service-item:hover .service-icon .drone-service-rotor,
+        .service-item:hover .service-icon .tripod-leg,
+        .service-item:hover .service-icon .survey-device,
+        .service-item:hover .service-icon .chart-bar,
+        .service-item:hover .service-icon .chart-line,
+        .service-item:hover .service-icon .excavator-arm,
+        .service-item:hover .service-icon .excavator-cabin,
+        .service-item:hover .service-icon .excavator-track {
+            background: #fff;
+        }
+
+
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Icon Animations */
+        @keyframes rotor-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes point-float {
+            0%, 100% { transform: translateY(0px); opacity: 0.7; }
+            50% { transform: translateY(-5px); opacity: 1; }
+        }
+
+        @keyframes signal-pulse {
+            0%, 100% { opacity: 0.3; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.2); }
+        }
+
+        @keyframes cube-rotate {
+            from { transform: rotateX(0deg) rotateY(0deg); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes screen-scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes construction-pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Service Icon Animations */
+        @keyframes service-cube-rotate {
+            from { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+            to { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes service-rotor-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes chart-grow {
+            0%, 100% { height: 5px; }
+            50% { height: 25px; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 30px;
+            }
+
+            .counter-container {
+                flex-direction: column;
+                gap: 60px;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .language-switcher {
+                margin-left: 20px;
+                gap: 10px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .logos-grid {
+                gap: 30px;
+            }
+
+
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin: 40px 0;
+            }
+
+            .service-item {
+                padding: 25px;
+            }
+
+            .service-item h3 {
+                font-size: 16px;
+            }
+
+            .service-item p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    
+    <header class="header">
+        <div class="logo">SINIŠA PREDRAGOVIĆ</div>
+        <nav class="nav">
+            <a href="/" style="font-weight: 500; color: #fff; border-bottom: none; display: flex; align-items: center; gap: 5px;" class="lang-nav-bureau">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top: -1px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <span>BUREAU</span>
+            </a>
+            <a href="#process">PROCESS</a>
+            <a href="#portfolio">PORTFOLIO</a>
+            <a href="#about">ABOUT</a>
+            <a href="#contact">CONTACT</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
+                    <button class="lang-btn" onclick="switchLanguage('sr')">СР</button>
+                    <button class="lang-btn" onclick="switchLanguage('ru')">РУ</button>
+                </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">DESIGNER &<br>ENTREPRENEUR</h1>
+            <p class="hero-subtitle">LANDSCAPE & CONSTRUCTION</p>
+            <p class="hero-description">
+                Transforming residential spaces through precision design, advanced technology, and seamless execution. From concept to completion.
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <span class="scroll-text">SCROLL</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="process" id="process">
+        <div class="process-container">
+            <div class="process-header">
+                <div class="section-number">01</div>
+                <h2 class="section-title">PRECISION DESIGN<br>PROCESS</h2>
+                <p class="section-subtitle">
+                    Combining surveying technology, engineering precision, and cutting-edge visualization to deliver exceptional results.
+                </p>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container drone-icon">
+                            <div class="drone-body"></div>
+                            <div class="drone-rotor rotor-1"></div>
+                            <div class="drone-rotor rotor-2"></div>
+                            <div class="drone-rotor rotor-3"></div>
+                            <div class="drone-rotor rotor-4"></div>
+                            <div class="drone-camera"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">DRONE SURVEY</h3>
+                    <p class="step-description">
+                        DJI Mavic Pro captures high-resolution aerial photography for comprehensive site analysis.
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container pointcloud-icon">
+                            <div class="point-dot dot-1"></div>
+                            <div class="point-dot dot-2"></div>
+                            <div class="point-dot dot-3"></div>
+                            <div class="point-dot dot-4"></div>
+                            <div class="point-dot dot-5"></div>
+                            <div class="point-dot dot-6"></div>
+                            <div class="point-dot dot-7"></div>
+                            <div class="point-dot dot-8"></div>
+                            <div class="point-dot dot-9"></div>
+                            <div class="point-dot dot-10"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">POINT CLOUD</h3>
+                    <p class="step-description">
+                        Photogrammetry processing creates detailed 3D point clouds from aerial imagery.
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container mapping-icon">
+                            <div class="satellite-dish"></div>
+                            <div class="signal-wave wave-1"></div>
+                            <div class="signal-wave wave-2"></div>
+                            <div class="signal-wave wave-3"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">PRECISION MAPPING</h3>
+                    <p class="step-description">
+                        GNSS rover with NTRIP provides centimeter-accurate positioning data for perfect alignment.
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container design-icon">
+                            <div class="cube-face front"></div>
+                            <div class="cube-face back"></div>
+                            <div class="cube-face left"></div>
+                            <div class="cube-face right"></div>
+                            <div class="cube-face top"></div>
+                            <div class="cube-face bottom"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">3D DESIGN</h3>
+                    <p class="step-description">
+                        Autodesk REVIT and AutoCAD Civil 3D create precise designs with accurate elevation data.
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container visualization-icon">
+                            <div class="screen-frame"></div>
+                            <div class="screen-content"></div>
+                            <div class="screen-glow"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">VISUALIZATION</h3>
+                    <p class="step-description">
+                        TWINMOTION and D5 Render produce photorealistic presentations for client approval.
+                    </p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-icon">
+                        <div class="icon-container construction-icon">
+                            <div class="crane-arm"></div>
+                            <div class="crane-base"></div>
+                            <div class="building-outline"></div>
+                            <div class="construction-dots"></div>
+                        </div>
+                    </div>
+                    <h3 class="step-title">CONSTRUCTION</h3>
+                    <p class="step-description">
+                        Seamless transition from digital design to physical construction with precision execution.
+                    </p>
+                </div>
+            </div>
+
+            <div class="software-logos">
+                <h3 class="logos-title">PROFESSIONAL SOFTWARE</h3>
+                <div class="logos-grid">
+                    <div class="logo-item">
+                        <div class="logo-symbol revit">R</div>
+                        <div class="logo-name">REVIT</div>
+                    </div>
+                    <div class="logo-item">
+                        <div class="logo-symbol autocad">A</div>
+                        <div class="logo-name">AUTOCAD CIVIL 3D</div>
+                    </div>
+                    <div class="logo-item">
+                        <div class="logo-symbol twinmotion">T</div>
+                        <div class="logo-name">TWINMOTION</div>
+                    </div>
+                    <div class="logo-item">
+                        <div class="logo-symbol d5render">D5</div>
+                        <div class="logo-name">D5 RENDER</div>
+                    </div>
+                    <div class="logo-item">
+                        <div class="logo-symbol unreal">U</div>
+                        <div class="logo-name">UNREAL ENGINE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Counter Section -->
+    <section class="experience-counter">
+        <div class="counter-container">
+            <div class="counter-item">
+                <div class="counter-number" data-target="15">0</div>
+                <div class="counter-symbol">+</div>
+                <div class="counter-label" data-lang="yearsExperience">YEARS OF EXPERIENCE</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" data-target="400">0</div>
+                <div class="counter-symbol">+</div>
+                <div class="counter-label" data-lang="completedProjects">COMPLETED PROJECTS</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+        <div class="portfolio-container">
+            <div class="portfolio-header">
+                <div class="section-number">02</div>
+                <h2 class="section-title">PORTFOLIO<br>SHOWCASE</h2>
+                <p class="section-subtitle">
+                    Transformative landscape architecture projects across Sweden and Russia, showcasing precision design and exceptional execution.
+                </p>
+            </div>
+
+            <!-- Sweden Projects -->
+            <div class="portfolio-category">
+                <h3 class="category-title">SWEDEN PROJECTS</h3>
+                <p class="category-description">
+                    High-end residential landscape transformations in prestigious Swedish locations.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="project-card" id="djursholm" onclick="openProjectModal('djursholm')">
+                        <h4 class="project-title">DJURSHOLM</h4>
+                        <p class="project-location">STOCKHOLM COUNTY, SWEDEN</p>
+                        <p class="project-description">
+                            Luxury residential landscape design featuring modern hardscaping and native plantings.
+                        </p>
+                        <div class="before-after-slider" data-project="djursholm">
+                            <div class="before-image" style="background-image: url('./images/djursholm/photo_24_2024-03-28_14-44-34.jpg');"></div>
+                            <div class="after-image" style="background-image: url('./images/djursholm/photo_30_2024-03-28_14-44-34.jpg');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" id="varmdo" onclick="openProjectModal('varmdo')">
+                        <h4 class="project-title">VÄRMDÖ</h4>
+                        <p class="project-location">STOCKHOLM ARCHIPELAGO, SWEDEN</p>
+                        <p class="project-description">
+                            Waterfront property enhancement with terraced gardens and outdoor living spaces.
+                        </p>
+                        <div class="before-after-slider" data-project="varmdo">
+                            <div class="before-image" style="background-image: url('./images/varmdo/varmdo2_before.png');"></div>
+                            <div class="after-image" style="background-image: url('./images/varmdo/varmdo1_After.jpg');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">BEFORE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" id="stallarholmen" onclick="openProjectModal('stallarholmen')">
+                        <h4 class="project-title">STALLARHOLMEN</h4>
+                        <p class="project-location">SÖDERMANLAND, SWEDEN</p>
+                        <p class="project-description">
+                            Contemporary garden design integrating modern architecture with natural landscapes.
+                        </p>
+                        <div class="before-after-slider" data-project="stallarholmen">
+                            <div class="before-image" style="background-image: url('./images/stallarholmen/stallar1_Before.jpg');"></div>
+                            <div class="after-image" style="background-image: url('./images/stallarholmen/stallar1_After.jpg');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" id="dalaro" onclick="openProjectModal('dalaro')">
+                        <h4 class="project-title">DALARÖ</h4>
+                        <p class="project-location">STOCKHOLM ARCHIPELAGO, SWEDEN</p>
+                        <p class="project-description">
+                            Coastal property transformation with sustainable design and natural stone features.
+                        </p>
+                        <div class="before-after-slider" data-project="dalaro">
+                            <div class="before-image" style="background-image: url('./images/dalaro/DJI_0728.JPG');"></div>
+                            <div class="after-image" style="background-image: url('./images/dalaro/photo_2_2024-03-28_14-50-12.jpg');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Russia Projects -->
+            <div class="portfolio-category">
+                <h3 class="category-title">RUSSIA PROJECTS</h3>
+                <p class="category-description">
+                    Innovative landscape solutions and hospitality design concepts across Russian territories.
+                </p>
+
+                <div class="projects-grid">
+                    <div class="project-card" id="crimea" onclick="openProjectModal('crimea')">
+                        <h3 class="project-title">CRIMEA CAMP CONCEPT</h3>
+                        <p class="project-location">CRIMEA</p>
+                        <p class="project-description">
+                            Concept design for a wilderness camp featuring traditional wooden cabins and communal spaces. This project has not yet been approved - these are conceptual drawings for the proposed camp development.
+                        </p>
+                        <div class="before-after-slider" data-project="crimea">
+                            <div class="before-image" style="background-image: url('./images/crimea/krim1_before.png');"></div>
+                            <div class="after-image" style="background-image: url('./images/crimea/krim2_after.png');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" id="ruza" onclick="openProjectModal('ruza')">
+                        <h4 class="project-title">RUZA, MOSCOW OBLAST</h4>
+                        <p class="project-location">MOSCOW REGION, RUSSIA</p>
+                        <p class="project-description">
+                            Private estate landscape featuring formal gardens, recreational areas, traditional Banya, raised garden area, large pond and garage apart from the main residence.
+                        </p>
+                        <div class="before-after-slider" data-project="ruza">
+                            <div class="before-image" style="background-image: url('./images/ruza/ruza1_Before.jpg');"></div>
+                            <div class="after-image" style="background-image: url('./images/ruza/ruza0_after.png');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" id="eco-hotel" onclick="openProjectModal('eco-hotel')">
+                        <h4 class="project-title">EKO-HOTEL CONCEPT</h4>
+                        <p class="project-location">RUSSIA</p>
+                        <p class="project-description">
+                            Sustainable hospitality design concept integrating eco-friendly landscape solutions.
+                        </p>
+                        <div class="before-after-slider" data-project="eco-hotel">
+                            <div class="before-image" style="background-image: url('./images/eco-hotel/eco1_before.jpg');"></div>
+                            <div class="after-image" style="background-image: url('./images/eco-hotel/eco2_after.jpg');"></div>
+                            <div class="slider-handle"></div>
+                            <div class="slider-labels">
+                                <span class="slider-label">BEFORE</span>
+                                <span class="slider-label">AFTER</span>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modals -->
+    <div class="project-modal" id="modal-djursholm">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">DJURSHOLM</h2>
+            <p class="modal-location">STOCKHOLM COUNTY, SWEDEN</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_24_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_30_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_8_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_6_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_21_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_22_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_23_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_25_2024-03-28_14-44-34.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/djursholm/photo_26_2024-03-28_14-44-34.jpg');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-dalaro">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">DALARÖ</h2>
+            <p class="modal-location">STOCKHOLM ARCHIPELAGO, SWEDEN</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/dalaro/DJI_0728.JPG');"></div>
+                <div class="modal-image" style="background-image: url('./images/dalaro/DJI_0747.JPG');"></div>
+                <div class="modal-image" style="background-image: url('./images/dalaro/photo_2_2024-03-28_14-50-12.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/dalaro/photo_4_2024-03-28_14-50-12.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/dalaro/photo_5_2024-03-28_14-50-12.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/dalaro/photo_6_2024-03-28_14-50-12.jpg');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-stallarholmen">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">STALLARHOLMEN</h2>
+            <p class="modal-location">SÖDERMANLAND, SWEDEN</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar1_Before.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar1_After.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar3.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar4.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar5.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar6.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar7.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar8.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/stallarholmen/stallar9.jpg');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-varmdo">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">VÄRMDÖ</h2>
+            <p class="modal-location">STOCKHOLM ARCHIPELAGO, SWEDEN</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo1_After.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo2_before.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo3.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo4.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo5.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo6.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo7.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo8.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo9.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo10.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo11.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo12.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/varmdo/varmdo13.png');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-crimea">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">CRIMEA CAMP CONCEPT</h2>
+            <p class="modal-location">CRIMEA</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/crimea/krim1_before.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim2_after.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim3.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim4.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim5.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim6.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim8.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim9.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim10.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim11.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim12.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/krim13.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/crimea/ph01_archviz_fluxtools_HQ_0001.png');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-ruza">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">RUZA, MOSCOW OBLAST</h2>
+            <p class="modal-location">MOSCOW REGION, RUSSIA</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/ruza/ruza1_Before.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/ruza/ruza0_after.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/ruza/ruza2.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/ruza/ruza3.png');"></div>
+                <div class="modal-image" style="background-image: url('./images/ruza/ruza4.png');"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-eco-hotel">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeProjectModal()">&times;</span>
+            <h2 class="modal-title">EKO-HOTEL CONCEPT</h2>
+            <p class="modal-location">RUSSIA</p>
+            <div class="modal-gallery">
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco1_before.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco2_after.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco3.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco4.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco5.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco6.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco7.jpg');"></div>
+                <div class="modal-image" style="background-image: url('./images/eco-hotel/eco8.jpg');"></div>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2 class="contact-title">SERVICES &<br>SKILLS</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="service-icon">
+                        <div class="icon-3d">
+                            <div class="cube-3d front"></div>
+                            <div class="cube-3d back"></div>
+                            <div class="cube-3d left"></div>
+                            <div class="cube-3d right"></div>
+                            <div class="cube-3d top"></div>
+                            <div class="cube-3d bottom"></div>
+                        </div>
+                    </div>
+                    <h3>3D DESIGN & VISUALIZATION</h3>
+                    <p>Designing Residential Homes & Landscapes within Autodesk REVIT in 3D - Architectural Visualization Images</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">
+                        <div class="icon-drone">
+                            <div class="drone-service-body"></div>
+                            <div class="drone-service-rotor r1"></div>
+                            <div class="drone-service-rotor r2"></div>
+                            <div class="drone-service-rotor r3"></div>
+                            <div class="drone-service-rotor r4"></div>
+                        </div>
+                    </div>
+                    <h3>DRONE SERVICES</h3>
+                    <p>Drone Piloting; Survey, Pointcloud, Images</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">
+                        <div class="icon-survey">
+                            <div class="tripod-leg leg1"></div>
+                            <div class="tripod-leg leg2"></div>
+                            <div class="tripod-leg leg3"></div>
+                            <div class="survey-device"></div>
+                        </div>
+                    </div>
+                    <h3>PRECISION SURVEYING</h3>
+                    <p>GNSS ROVER (EMLID REACH RS2) Point collection & delivery of DWG or CSV File, watershed analysis</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">
+                        <div class="icon-management">
+                            <div class="chart-bar bar1"></div>
+                            <div class="chart-bar bar2"></div>
+                            <div class="chart-bar bar3"></div>
+                            <div class="chart-line"></div>
+                        </div>
+                    </div>
+                    <h3>PROJECT MANAGEMENT</h3>
+                    <p>On-site management, quotation, calculation, estimation</p>
+                </div>
+                <div class="service-item">
+                    <div class="service-icon">
+                        <div class="icon-equipment">
+                            <div class="excavator-arm"></div>
+                            <div class="excavator-cabin"></div>
+                            <div class="excavator-track"></div>
+                        </div>
+                    </div>
+                    <h3>EQUIPMENT OPERATION</h3>
+                    <p>Certified Excavator Operator, Front Loader Operator</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2 class="contact-title">LET'S CREATE<br>SOMETHING<br>AMAZING</h2>
+        </div>
+    </section>
+
+    <script>
+        // Language switching functionality
+        const translations = {
+            en: {
+                designer: "DESIGNER &",
+                entrepreneur: "ENTREPRENEUR",
+                landscapeConstruction: "LANDSCAPE & CONSTRUCTION",
+                tagline: "Transforming residential spaces through precision design, advanced technology, and seamless execution. From concept to completion.",
+                process: "PROCESS",
+                portfolio: "PORTFOLIO",
+                about: "ABOUT",
+                contact: "CONTACT",
+                precisionProcess: "PRECISION DESIGN PROCESS",
+                processSubtitle: "Combining surveying technology, engineering precision, and cutting-edge visualization to deliver exceptional results.",
+                droneTitle: "DRONE SURVEY",
+                droneDesc: "DJI Mavic Pro captures high-resolution aerial photography for comprehensive site analysis.",
+                pointCloudTitle: "POINT CLOUD",
+                pointCloudDesc: "Photogrammetry processing creates detailed 3D point clouds from aerial imagery.",
+                mappingTitle: "PRECISION MAPPING",
+                mappingDesc: "GNSS rover with NTRIP provides centimeter-accurate positioning data for perfect alignment.",
+                designTitle: "3D DESIGN",
+                designDesc: "Autodesk REVIT and AutoCAD Civil 3D create precise designs with accurate elevation data.",
+                visualizationTitle: "VISUALIZATION",
+                visualizationDesc: "TWINMOTION and D5 Render produce photorealistic presentations for client approval.",
+                constructionTitle: "CONSTRUCTION",
+                constructionDesc: "Seamless transition from digital design to physical construction with precision execution.",
+                portfolioTitle: "PORTFOLIO SHOWCASE",
+                portfolioSubtitle: "Transformative landscape architecture projects across Sweden and Russia, showcasing precision design and exceptional execution.",
+                swedenProjects: "SWEDEN PROJECTS",
+                swedenSubtitle: "High-end residential landscape transformations in prestigious Swedish locations.",
+                djursholm: "DJURSHOLM",
+                djursholmDesc: "Luxury residential landscape design featuring modern hardscaping and native plantings.",
+                dalaro: "DALARÖ",
+                dalaroDesc: "Coastal property transformation with sustainable design and natural stone features.",
+                stallarholmen: "STALLARHOLMEN",
+                stallarholmenDesc: "Contemporary garden design integrating modern architecture with natural landscapes.",
+                varmdo: "VÄRMDÖ",
+                varmdoDesc: "Waterfront property enhancement with terraced gardens and outdoor living spaces.",
+                russiaProjects: "RUSSIA PROJECTS",
+                russiaSubtitle: "Innovative landscape solutions and hospitality design concepts across Russian territories.",
+                crimeaCamp: "CRIMEA CAMP CONCEPT",
+                crimeaCampDesc: "Concept design for a wilderness camp featuring traditional wooden cabins and communal spaces. This project has not yet been approved - these are conceptual drawings for the proposed camp development.",
+                ruza: "RUZA, MOSCOW OBLAST",
+                ruzaDesc: "Private estate landscape featuring formal gardens, recreational areas, traditional Banya, raised garden area, large pond and garage apart from the main residence.",
+                ecoHotel: "EKO-HOTEL CONCEPT",
+                ecoHotelDesc: "Eco-hotel design concept with unique landscape solutions.",
+                professionalSoftware: "PROFESSIONAL SOFTWARE",
+                softwareSubtitle: "Industry-leading tools for precision design and visualization.",
+                createAmazing: "SERVICES & SKILLS",
+                servicesSkills: "SERVICES & SKILLS",
+                service1Title: "3D DESIGN & VISUALIZATION",
+                service1Desc: "Design House & landscape within Autodesk REVIT in 3D - Architectural Visualization Images",
+                service2Title: "DRONE SERVICES", 
+                service2Desc: "Drone Piloting; Survey, Pointcloud, Images",
+                service3Title: "PRECISION SURVEYING",
+                service3Desc: "GNSS ROVER (EMLID REACH RS2) Point collection & delivery of DWG or CSV File, watershed analysis",
+                service4Title: "PROJECT MANAGEMENT",
+                service4Desc: "On-site management, quotation, calculation, estimation",
+                service5Title: "EQUIPMENT OPERATION",
+                service5Desc: "Certified Excavator Operator, Front Loader Operator",
+                email: "EMAIL",
+                linkedin: "LINKEDIN",
+                instagram: "INSTAGRAM",
+                yearsExperience: "YEARS OF EXPERIENCE",
+                completedProjects: "COMPLETED PROJECTS",
+                bureau: "BUREAU"
+            },
+            sr: {
+                designer: "ДИЗАЈНЕР &",
+                entrepreneur: "ПРЕДУЗЕТНИК",
+                landscapeConstruction: "ПЕЈЗАЖНА АРХИТЕКТУРА И ИЗГРАДЊА",
+                tagline: "Трансформишемо стамбене просторе кроз прецизан дизајн, напредну технологију и беспрекорно извршавање. Од концепта до завршетка.",
+                process: "ПРОЦЕС",
+                portfolio: "ПОРТФОЛИО",
+                about: "О МЕНИ",
+                contact: "КОНТАКТ",
+                precisionProcess: "ПРЕЦИЗАН ДИЗАЈН ПРОЦЕС",
+                processSubtitle: "Комбинујемо технологију снимања, инжењерску прецизност и најсавременију визуелизацију за изузетне резултате.",
+                droneTitle: "ДРОН СНИМАЊЕ",
+                droneDesc: "DJI Mavic Pro снима високорезолуционе аеријалне фотографије за свеобухватну анализу локације.",
+                pointCloudTitle: "ОБЛАК ТАЧАКА",
+                pointCloudDesc: "Фотограметријска обрада ствара детаљне 3D облаке тачака из аеријалних снимака.",
+                mappingTitle: "ПРЕЦИЗНО МАПИРАЊЕ",
+                mappingDesc: "GNSS ровер са NTRIP пружа центиметарски тачне податке о позицији за савршено поравнање.",
+                designTitle: "3D ДИЗАЈН",
+                designDesc: "Autodesk REVIT и AutoCAD Civil 3D стварају прецизне дизајне са тачним висинским подацима.",
+                visualizationTitle: "ВИЗУЕЛИЗАЦИЈА",
+                visualizationDesc: "TWINMOTION и D5 Render производе фотореалистичне презентације за одобрење клијената.",
+                constructionTitle: "ИЗГРАДЊА",
+                constructionDesc: "Беспрекоран прелазак са дигиталног дизајна на физичку изградњу са прецизним извршавањем.",
+                portfolioTitle: "ПОРТФОЛИО ПРИКАЗ",
+                portfolioSubtitle: "Трансформативни пројекти пејзажне архитектуре широм Шведске и Русије, приказујући прецизан дизајн и изузетно извршавање.",
+                swedenProjects: "ПРОЈЕКТИ У ШВЕДСКОЈ",
+                swedenSubtitle: "Високо квалитетне трансформације стамбених пејзажа на престижним шведским локацијама.",
+                djursholm: "ЂУРСХОЛМ",
+                djursholmDesc: "Луксузни дизајн стамбеног пејзажа са модерним тврдим материјалима и домаћим биљкама.",
+                dalaro: "ДАЛАРЕ",
+                dalaroDesc: "Трансформација приобалне некретнине са одрживим дизајном и природним каменим карактеристикама.",
+                stallarholmen: "СТАЛАРХОЛМЕН",
+                stallarholmenDesc: "Савремени дизајн врта који интегрише модерну архитектуру са природним пејзажима.",
+                varmdo: "ВАРМДЕ",
+                varmdoDesc: "Побољшање приобалне некретнине са терасастим вртовима и просторима за живот на отвореном.",
+                russiaProjects: "ПРОЈЕКТИ У РУСИЈИ",
+                russiaSubtitle: "Иновативна пејзажна решења и концепти дизајна угоститељства широм руских територија.",
+                crimeaCamp: "КОНЦЕПТ КАМПА У КРИМУ",
+                crimeaCampDesc: "Концептуални дизајн за камп у дивљини са традиционалним дрвеним кабинама и заједничким просторима. Овај пројекат још није одобрен - ово су концептуални цртежи за предложени развој кампа.",
+                ruza: "РУЗА, МОСКОВСКА ОБЛАСТ",
+                ruzaDesc: "Приватни имањски пејзаж са формалним вртовима, рекреационим областима, традиционалном бањом, подигнутим вртним простором, великим језером и гаражом одвојеном од главне резиденције.",
+                ecoHotel: "ЕКО-ХОТЕЛ КОНЦЕПТ",
+                ecoHotelDesc: "Концепт дизајна еко-хотела са јединственим пејзажним решењима.",
+                professionalSoftware: "ПРОФЕСИОНАЛНИ СОФТВЕР",
+                softwareSubtitle: "Водећи алати у индустрији за прецизан дизајн и визуелизацију.",
+                createAmazing: "УСЛУГЕ И ВЕШТИНЕ",
+                servicesSkills: "УСЛУГЕ И ВЕШТИНЕ",
+                service1Title: "3Д ДИЗАЈН И ВИЗУЕЛИЗАЦИЈА",
+                service1Desc: "Дизајн куће и пејзажа у Autodesk REVIT-у у 3Д - Архитектонске визуелизације",
+                service2Title: "ДРОН УСЛУГЕ",
+                service2Desc: "Управљање дроном; Истраживање, облак тачака, слике",
+                service3Title: "ПРЕЦИЗНО МЕРЕЊЕ",
+                service3Desc: "GNSS ROVER (EMLID REACH RS2) Прикупљање тачака и испорука DWG или CSV фајла, анализа слива",
+                service4Title: "УПРАВЉАЊЕ ПРОЈЕКТОМ",
+                service4Desc: "Управљање на лицу места, калкулација, процена",
+                service5Title: "РУКОВАЊЕ ОПРЕМОМ",
+                service5Desc: "Сертификовани оператер багера, оператер утоваривача",
+                email: "ИМЕЈЛ",
+                linkedin: "LINKEDIN",
+                instagram: "INSTAGRAM",
+                yearsExperience: "ГОДИНЕ ИСКУСТВА",
+                completedProjects: "ЗАВРШЕНИХ ПРОЈЕКАТА",
+                bureau: "БИРО"
+            },
+            ru: {
+                designer: "ДИЗАЙНЕР И",
+                entrepreneur: "ПРЕДПРИНИМАТЕЛЬ",
+                landscapeConstruction: "ЛАНДШАФТНАЯ АРХИТЕКТУРА И СТРОИТЕЛЬСТВО",
+                tagline: "Преобразуем жилые пространства через точный дизайн, передовые технологии и безупречное исполнение. От концепции до завершения.",
+                process: "ПРОЦЕСС",
+                portfolio: "ПОРТФОЛИО",
+                about: "О НАС",
+                contact: "КОНТАКТЫ",
+                precisionProcess: "ТОЧНЫЙ ПРОЦЕСС ДИЗАЙНА",
+                processSubtitle: "Сочетаем технологии съемки, инженерную точность и передовую визуализацию для достижения исключительных результатов.",
+                droneTitle: "СЪЕМКА ДРОНОМ",
+                droneDesc: "DJI Mavic Pro захватывает высококачественные аэрофотоснимки для комплексного анализа участка.",
+                pointCloudTitle: "ОБЛАКО ТОЧЕК",
+                pointCloudDesc: "Фотограмметрическая обработка создает детальные 3D облака точек из аэрофотоснимков.",
+                mappingTitle: "ТОЧНОЕ КАРТОГРАФИРОВАНИЕ",
+                mappingDesc: "GNSS ровер с NTRIP обеспечивает сантиметровую точность позиционирования для идеального выравнивания.",
+                designTitle: "3D ДИЗАЙН",
+                designDesc: "Autodesk REVIT и AutoCAD Civil 3D создают точные проекты с точными данными о высотах.",
+                visualizationTitle: "ВИЗУАЛИЗАЦИЯ",
+                visualizationDesc: "TWINMOTION и D5 Render создают фотореалистичные презентации для утверждения клиентами.",
+                constructionTitle: "СТРОИТЕЛЬСТВО",
+                constructionDesc: "Плавный переход от цифрового дизайна к физическому строительству с точным исполнением.",
+                portfolioTitle: "ПОРТФОЛИО ПРОЕКТОВ",
+                portfolioSubtitle: "Трансформационные проекты ландшафтной архитектуры в Швеции и России, демонстрирующие точный дизайн и исключительное исполнение.",
+                swedenProjects: "ПРОЕКТЫ В ШВЕДСКОИ",
+                swedenSubtitle: "Высококлассные трансформации жилых ландшафтов в престижных шведских локациях.",
+                djursholm: "ЮРШОЛЬМ",
+                djursholmDesc: "Роскошный дизайн жилого ландшафта с современными твердыми материалами и местными растениями.",
+                dalaro: "ДАЛАРЕ",
+                dalaroDesc: "Трансформация прибрежной собственности с устойчивым дизайном и природными каменными элементами.",
+                stallarholmen: "СТАЛЛАРХОЛЬМЕН",
+                stallarholmenDesc: "Современный дизайн сада, интегрирующий современную архитектуру с природными ландшафтами.",
+                varmdo: "ВЕРМДЕ",
+                varmdoDesc: "Улучшение прибрежной собственности с террасированными садами и зонами отдыха на открытом воздухе.",
+                russiaProjects: "ПРОЕКТЫ В РОССИИ",
+                russiaSubtitle: "Инновационные ландшафтные решения и концепции дизайна гостеприимства на российских территориях.",
+                crimeaCamp: "КОНЦЕПТ ЛАГЕРЯ В КРЫМУ",
+                crimeaCampDesc: "Концептуальный дизайн лагеря в дикой природе с традиционными деревянными кабинами и общественными пространствами. Этот проект еще не утвержден - это концептуальные чертежи предлагаемого развития лагеря.",
+                ruza: "РУЗА, МОСКОВСКАЯ ОБЛАСТЬ",
+                ruzaDesc: "Частный усадебный ландшафт с формальными садами, рекреационными зонами, традиционной баней, приподнятой садовой зоной, большим прудом и гаражом отдельно от основной резиденции.",
+                ecoHotel: "КОНЦЕПТ ЭКО-ОТЕЛЯ",
+                ecoHotelDesc: "Концепция дизайна эко-отеля с необычными ландшафтными решениями.",
+                professionalSoftware: "ПРОФЕССИОНАЛЬНОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ",
+                softwareSubtitle: "Ведущие в отрасли инструменты для точного дизайна и визуализации.",
+                createAmazing: "УСЛУГИ И НАВЫКИ",
+                servicesSkills: "УСЛУГИ И НАВЫКИ",
+                service1Title: "3D ДИЗАЙН И ВИЗУАЛИЗАЦИЯ",
+                service1Desc: "Дизайн дома и ландшафта в Autodesk REVIT в 3D - Архитектурные визуализации",
+                service2Title: "УСЛУГИ ДРОНОВ",
+                service2Desc: "Пилотирование дронов; Съемка, облако точек, изображения",
+                service3Title: "ТОЧНАЯ СЪЕМКА",
+                service3Desc: "GNSS ROVER (EMLID REACH RS2) Сбор точек и доставка DWG или CSV файла, анализ водосбора",
+                service4Title: "УПРАВЛЕНИЕ ПРОЕКТАМИ",
+                service4Desc: "Управление на объекте, расчеты, калькуляция, оценка",
+                service5Title: "УПРАВЛЕНИЕ ТЕХНИКОЙ",
+                service5Desc: "Сертифицированный оператор экскаватора, оператор погрузчика",
+                email: "ЭЛЕКТРОННАЯ ПОЧТА",
+                linkedin: "LINKEDIN",
+                instagram: "INSTAGRAM",
+                yearsExperience: "ЛЕТ ОПЫТА",
+                completedProjects: "ЗАВЕРШЕННЫХ ПРОЕКТОВ",
+                bureau: "БЮРО"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const t = translations[lang];
+            
+            // Update navigation
+            const mainNavLinks = document.querySelectorAll('.nav a:not(.lang-nav-bureau)');
+            if (mainNavLinks.length >= 4) {
+                mainNavLinks[0].textContent = t.process;
+                mainNavLinks[1].textContent = t.portfolio;
+                mainNavLinks[2].textContent = t.about;
+                mainNavLinks[3].textContent = t.contact;
+            }
+            
+            const bureauSpan = document.querySelector('.lang-nav-bureau span');
+            if (bureauSpan) bureauSpan.textContent = t.bureau;
+            
+            // Update hero section
+            const heroTitle = document.querySelector('.hero-title');
+            if (heroTitle) heroTitle.innerHTML = t.designer + '<br>' + t.entrepreneur;
+            
+            const heroDescription = document.querySelector('.hero-description');
+            if (heroDescription) heroDescription.textContent = t.tagline;
+            
+            // Update process section header
+            const processHeader = document.querySelector('.process-header .section-title');
+            if (processHeader) processHeader.innerHTML = t.precisionProcess;
+            
+            const processHeaderP = document.querySelector('.process-header .section-subtitle');
+            if (processHeaderP) processHeaderP.textContent = t.processSubtitle;
+            
+            // Update process steps
+            const processSteps = document.querySelectorAll('.process-step');
+            const stepTitles = [t.droneTitle, t.pointCloudTitle, t.mappingTitle, t.designTitle, t.visualizationTitle, t.constructionTitle];
+            const stepDescs = [t.droneDesc, t.pointCloudDesc, t.mappingDesc, t.designDesc, t.visualizationDesc, t.constructionDesc];
+            
+            processSteps.forEach((step, index) => {
+                const title = step.querySelector('.step-title');
+                const desc = step.querySelector('.step-description');
+                if (title && stepTitles[index]) title.textContent = stepTitles[index];
+                if (desc && stepDescs[index]) desc.textContent = stepDescs[index];
+            });
+            
+            // Update portfolio section
+            const portfolioHeader = document.querySelector('.portfolio-header .section-title');
+            if (portfolioHeader) portfolioHeader.innerHTML = t.portfolioTitle;
+            
+            const portfolioHeaderP = document.querySelector('.portfolio-header .section-subtitle');
+            if (portfolioHeaderP) portfolioHeaderP.textContent = t.portfolioSubtitle;
+            
+            // Update Sweden section
+            const swedenHeader = document.querySelector('.portfolio-category .category-title');
+            if (swedenHeader) swedenHeader.textContent = t.swedenProjects;
+            
+            const swedenHeaderP = document.querySelector('.portfolio-category .category-description');
+            if (swedenHeaderP) swedenHeaderP.textContent = t.swedenSubtitle;
+            
+            // Update Russia section - need to find the second category
+            const portfolioCategories = document.querySelectorAll('.portfolio-category');
+            if (portfolioCategories.length >= 2) {
+                const russiaHeader = portfolioCategories[1].querySelector('.category-title');
+                if (russiaHeader) russiaHeader.textContent = t.russiaProjects;
+                
+                const russiaHeaderP = portfolioCategories[1].querySelector('.category-description');
+                if (russiaHeaderP) russiaHeaderP.textContent = t.russiaSubtitle;
+            }
+            
+            // Update project titles and descriptions
+            const djursholmTitle = document.querySelector('#djursholm .project-title');
+            if (djursholmTitle) djursholmTitle.textContent = t.djursholm;
+            const djursholmDesc = document.querySelector('#djursholm .project-description');
+            if (djursholmDesc) djursholmDesc.textContent = t.djursholmDesc;
+            
+            const dalaroTitle = document.querySelector('#dalaro .project-title');
+            if (dalaroTitle) dalaroTitle.textContent = t.dalaro;
+            const dalaroDesc = document.querySelector('#dalaro .project-description');
+            if (dalaroDesc) dalaroDesc.textContent = t.dalaroDesc;
+            
+            const stallarholmenTitle = document.querySelector('#stallarholmen .project-title');
+            if (stallarholmenTitle) stallarholmenTitle.textContent = t.stallarholmen;
+            const stallarholmenDesc = document.querySelector('#stallarholmen .project-description');
+            if (stallarholmenDesc) stallarholmenDesc.textContent = t.stallarholmenDesc;
+            
+            const varmdoTitle = document.querySelector('#varmdo .project-title');
+            if (varmdoTitle) varmdoTitle.textContent = t.varmdo;
+            const varmdoDesc = document.querySelector('#varmdo .project-description');
+            if (varmdoDesc) varmdoDesc.textContent = t.varmdoDesc;
+            
+            const crimeaTitle = document.querySelector('#crimea .project-title');
+            if (crimeaTitle) crimeaTitle.textContent = t.crimeaCamp;
+            const crimeaDesc = document.querySelector('#crimea .project-description');
+            if (crimeaDesc) crimeaDesc.textContent = t.crimeaCampDesc;
+            
+            const ruzaTitle = document.querySelector('#ruza .project-title');
+            if (ruzaTitle) ruzaTitle.textContent = t.ruza;
+            const ruzaDesc = document.querySelector('#ruza .project-description');
+            if (ruzaDesc) ruzaDesc.textContent = t.ruzaDesc;
+            
+            const ecoHotelTitle = document.querySelector('#eco-hotel .project-title');
+            if (ecoHotelTitle) ecoHotelTitle.textContent = t.ecoHotel;
+            const ecoHotelDesc = document.querySelector('#eco-hotel .project-description');
+            if (ecoHotelDesc) ecoHotelDesc.textContent = t.ecoHotelDesc;
+            
+            // Update software section
+            const softwareSection = document.querySelector('.logos-title');
+            if (softwareSection) softwareSection.textContent = t.professionalSoftware;
+            
+            // Update CTA section
+            const ctaSection = document.querySelector('.contact-title');
+            if (ctaSection) ctaSection.innerHTML = t.createAmazing;
+            
+            // Update Services & Skills section
+            const serviceItems = document.querySelectorAll('.service-item');
+            const serviceTitles = [t.service1Title, t.service2Title, t.service3Title, t.service4Title, t.service5Title];
+            const serviceDescs = [t.service1Desc, t.service2Desc, t.service3Desc, t.service4Desc, t.service5Desc];
+            
+            serviceItems.forEach((item, index) => {
+                const title = item.querySelector('h3');
+                const desc = item.querySelector('p');
+                if (title && serviceTitles[index]) title.textContent = serviceTitles[index];
+                if (desc && serviceDescs[index]) desc.textContent = serviceDescs[index];
+            });
+            
+
+            
+            // Update counter labels
+            const yearsLabel = document.querySelector('[data-lang="yearsExperience"]');
+            if (yearsLabel) yearsLabel.textContent = t.yearsExperience;
+            
+            const projectsLabel = document.querySelector('[data-lang="completedProjects"]');
+            if (projectsLabel) projectsLabel.textContent = t.completedProjects;
+            
+            // Update modal titles
+            const modalTitles = document.querySelectorAll('.modal-title');
+            const modalTitleTexts = [t.djursholm, t.dalaro, t.stallarholmen, t.varmdo, t.crimeaCamp, t.ruza, t.ecoHotel];
+            modalTitles.forEach((title, index) => {
+                if (modalTitleTexts[index]) {
+                    title.textContent = modalTitleTexts[index];
+                }
+            });
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.querySelector(`.lang-btn[onclick="switchLanguage('${lang}')"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        let isModalOpen = false;
+        
+        document.addEventListener('mousemove', (e) => {
+            if (!isModalOpen) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            }
+        });
+
+        document.addEventListener('mouseenter', () => {
+            if (!isModalOpen) {
+                cursor.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.style.display = 'none';
+        });
+
+        // Hover effects
+        const hoverElements = document.querySelectorAll('a, button, .project-card, .logo-item');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if (!isModalOpen) cursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                if (!isModalOpen) cursor.classList.remove('hover');
+            });
+        });
+
+        // Before/After Slider - Ultra responsive
+        document.querySelectorAll('.before-after-slider').forEach(slider => {
+            const handle = slider.querySelector('.slider-handle');
+            const afterImage = slider.querySelector('.after-image');
+            let isDragging = false;
+
+            const updateSlider = (clientX) => {
+                const rect = slider.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                
+                // Instant updates with no delays
+                handle.style.left = percentage + '%';
+                afterImage.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
+            };
+
+            // Mouse events
+            handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                cursor.classList.add('dragging');
+                e.preventDefault();
+                document.body.style.userSelect = 'none';
+            });
+
+            // Slider area click to jump
+            slider.addEventListener('click', (e) => {
+                if (!isDragging) {
+                    updateSlider(e.clientX);
+                }
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    updateSlider(e.clientX);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    cursor.classList.remove('dragging');
+                    document.body.style.userSelect = '';
+                }
+            });
+
+            // Touch events for mobile
+            handle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            slider.addEventListener('touchstart', (e) => {
+                if (!isDragging) {
+                    updateSlider(e.touches[0].clientX);
+                }
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    updateSlider(e.touches[0].clientX);
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+        });
+
+        // Project Modal Functions
+        function openProjectModal(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            if (modal) {
+                modal.classList.add('show');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                isModalOpen = true;
+                cursor.style.display = 'none';
+            }
+        }
+
+        function closeProjectModal() {
+            document.querySelectorAll('.project-modal').forEach(modal => {
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+            });
+            document.body.style.overflow = 'auto';
+            isModalOpen = false;
+            cursor.style.display = 'block';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeProjectModal();
+                }
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.process-header, .process-step, .software-logos, .counter-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Language switcher
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Counter Animation
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 20);
+        }
+
+        // Intersection Observer for counters
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target.querySelector('.counter-number');
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    animateCounter(counter, target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.counter-item').forEach(item => {
+            counterObserver.observe(item);
+        });
+    </script>
+</body>
+</html>
+

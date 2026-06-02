@@ -1,0 +1,19 @@
+{
+  "project": "AI_Studio_Hero_Robot_3D_Ready",
+  "engine": "nano_banana_2",
+  "parameters": {
+    "prompt": "Full body character concept sheet, perfectly front facing A-pose, of a sleek futuristic robotic soldier. The robot features hyper-polished obsidian black armor plating with smooth, aerodynamic curves and subtle geometric panel lines. The head is encased in a featureless, opaque black visor helmet, resembling high-tech combat gear, with a singular subtle glowing accent light. The robot is entirely mechanical with no clothing or fabric. Pure white background, flat neutral studio lighting, no shadows on the background, symmetrical design, hyper-realistic 8k render, photorealistic sci-fi character design, optimized for 3D modeling.",
+    "negative_prompt": "clothing, fabric, human face, eyes, bright colors, text, watermark, messy, low resolution, cartoon, 2d, illustration, deformed armor, asymmetric, environment, scenery, background elements, dramatic harsh lighting, cast shadows",
+    "resolution": {
+      "width": 1024,
+      "height": 1024
+    },
+    "guidance_scale": 7.5,
+    "num_inference_steps": 50,
+    "seed": -1,
+    "style_preset": "3d_model",
+    "high_res_fix": true,
+    "lighting_style": "neutral_studio",
+    "material_properties": "glossy_obsidian"
+  }
+}

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MSCW BUREAU | Synthetic &amp; Physical</title>
+  <meta name="description"
+    content="MSCW Bureau — commercial AI production and precision landscape architecture under one roof." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/portfolio.css" />
+</head>
+
+<body class="lobby-active">
+  <div class="noise-overlay"></div>
+
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <canvas id="spline-canvas"></canvas>
+
+  <!-- Lobby wing selectors (minimal) -->
+  <div id="lobby-portal-layer" class="lobby-portal-layer" aria-hidden="false">
+    <div class="lobby-portal-row">
+      <button type="button" class="lobby-portal portal-synthetic" data-wing="synthetic">
+        <span class="portal-label label-text">Synthetic</span>
+        <span class="portal-sub caption-text dim">Commercial AI production</span>
+      </button>
+      <button type="button" class="lobby-portal portal-physical" data-wing="physical">
+        <span class="portal-label label-text">Physical</span>
+        <span class="portal-sub caption-text dim">Landscape &amp; construction</span>
+      </button>
+    </div>
+    <p class="lobby-hint caption-text dim">Select a discipline or click the 3D scene</p>
+  </div>
+
+  <div id="app">
+    <header class="site-header">
+      <a href="#lobby" class="logo-link" id="return-lobby">
+        <img src="/mscw-logo.png?v=2" alt="MSCW Bureau" class="logo-img" width="148" height="auto" />
+      </a>
+      <nav class="site-nav wing-nav" aria-label="Primary">
+        <a href="#lobby" data-wing-nav="lobby">Lobby</a>
+        <a href="#synthetic-hub" data-wing-nav="synthetic">Synthetic</a>
+        <a href="#physical-hub" data-wing-nav="physical">Physical</a>
+        <a href="#portfolio" data-wing-nav="shared">Portfolio</a>
+        <a href="#contact">Contact</a>
+        <button type="button" class="nav-manifesto" id="manifesto-trigger">Manifesto</button>
+      </nav>
+      <p class="wing-status caption-text dim" id="wing-status">Lobby</p>
+    </header>
+
+    <footer class="site-footer">
+      <span class="caption-text dim">© 2026 MSCW Bureau</span>
+      <span class="caption-text dim scroll-hint">Choose a wing to explore</span>
+      <button type="button" class="caption-text dim audio-toggle" id="audio-toggle">Sound reactive</button>
+    </footer>
+
+    <main class="scroll-container" id="bureau-scroll">
+
+      <!-- LOBBY -->
+      <section class="viewport-section lobby-section" id="lobby" data-wing="lobby">
+        <div class="center-content lobby-center">
+          <p class="section-label label-text">MSCW Bureau</p>
+          <h1 class="lobby-title display-title">Two disciplines.<br />One practice.</h1>
+          <p class="body-text lobby-desc">Commercial AI imagery and motion for global brands, alongside precision landscape
+            architecture from survey to built form.</p>
+          <div class="lobby-quick-actions">
+            <button type="button" class="btn-terminal" data-wing="synthetic">Synthetic studio</button>
+            <button type="button" class="btn-terminal btn-physical" data-wing="physical">Physical studio</button>
+          </div>
+          <button type="button" class="btn-terminal btn-ghost btn-reel">Showreel</button>
+        </div>
+      </section>
+
+      <!-- SYNTHETIC HUB -->
+      <section class="viewport-section" id="synthetic-hub" data-wing="synthetic">
+        <div class="center-content">
+          <div class="mono-text section-label">WING.A // SYNTHETIC</div>
+          <h2 class="medium-title">COMMERCIAL AI<br />PRODUCTION</h2>
+          <p class="mono-text dim body-text max-w">Broadcast-grade generative video &amp; imagery for enterprise campaigns.
+          </p>
+        </div>
+      </section>
+
+      <!-- CLIENT FREQUENCY -->
+      <section class="viewport-section" id="brands" data-wing="synthetic">
+        <div class="brands-container">
+          <div class="mono-text section-label mb-2">CLIENT FREQUENCY</div>
+          <h2 class="medium-title mb-2">ENTERPRISE SIGNAL</h2>
+          <div class="brands-strip">
+            <div class="brand-node mono-text">YANDEX</div>
+            <div class="brand-node mono-text">BALTIKA</div>
+            <div class="brand-node mono-text">SBER</div>
+          </div>
+          <p class="mono-text dim mt-4">Replace with campaign assets / logos when ready.</p>
+        </div>
+      </section>
+
+      <!-- PIPELINE (dual branch) -->
+      <section class="viewport-section" id="pipeline" data-wing="synthetic">
+        <div class="pipeline-container fade-up delay-1">
+          <div class="mono-text section-label">01 // PIPELINE</div>
+          <h2 class="medium-title mb-2">SIGNAL PATHWAYS</h2>
+          <div class="pipeline-branch-tabs mono-text">
+            <button type="button" class="branch-tab active" data-branch="synthetic">SYNTHETIC</button>
+            <button type="button" class="branch-tab" data-branch="hybrid">HYBRID</button>
+            <button type="button" class="branch-tab" data-branch="physical">PHYSICAL</button>
+          </div>
+
+          <div class="pipeline-display" id="pipeline-synthetic">
+            <div class="pipeline-stage active" id="stage-1">
+              <div class="typewriter mono-text">&gt; /imagine prompt: cinematic brand film, hyper-realistic, 8k --ar 16:9</div>
+            </div>
+            <div class="pipeline-stage" id="stage-2">
+              <img src="https://images.unsplash.com/photo-1614729939124-032f0b5609ce?auto=format&fit=crop&q=80&w=800"
+                alt="AI synthesis" class="pipeline-media" />
+              <div class="stage-label mono-text">[ STATIC SYNTHESIS ]</div>
+            </div>
+            <div class="pipeline-stage" id="stage-3">
+              <video src="https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" loop muted
+                playsinline class="pipeline-media"></video>
+              <div class="stage-label mono-text">[ BROADCAST MOTION ]</div>
+            </div>
+          </div>
+
+          <div class="pipeline-display wing-hidden" id="pipeline-hybrid">
+            <div class="pipeline-stage active">
+              <div class="typewriter mono-text hybrid-type">&gt; scan.archipelago --resolution=GNSS_CM --format=las</div>
+            </div>
+            <div class="pipeline-stage">
+              <img src="/portfolio/images/crimea/ph01_archviz_fluxtools_HQ_0001.png" alt="AI landscape synthesis" class="pipeline-media" />
+              <div class="stage-label mono-text">[ AI CONCEPT SYNTHESIS ]</div>
+            </div>
+            <div class="pipeline-stage">
+              <img src="/portfolio/images/djursholm/photo_8_2024-03-28_14-44-34.jpg" alt="BIM engineering / Revit" class="pipeline-media" />
+              <div class="stage-label mono-text">[ BIM &amp; PRECISION BUILD ]</div>
+            </div>
+          </div>
+
+          <div class="pipeline-display wing-hidden" id="pipeline-physical">
+            <div class="pipeline-stage active">
+              <div class="typewriter mono-text physical-type">&gt; drone.survey --site=residential --resolution=4K</div>
+            </div>
+            <div class="pipeline-stage">
+              <img src="/portfolio/images/djursholm/photo_24_2024-03-28_14-44-34.jpg" alt="Point cloud / design"
+                class="pipeline-media" />
+              <div class="stage-label mono-text">[ 3D DESIGN / REVIT ]</div>
+            </div>
+            <div class="pipeline-stage">
+              <img src="/portfolio/images/dalaro/DJI_0728.JPG" alt="Built environment" class="pipeline-media" />
+              <div class="stage-label mono-text">[ BUILT ENVIRONMENT ]</div>
+            </div>
+          </div>
+
+          <button class="btn-terminal mono-text btn-pipeline mt-4">[ PROCESS NEXT PHASE ]</button>
+        </div>
+      </section>
+
+      <!-- SYNTHETIC WORK -->
+      <section class="viewport-section" id="work-synthetic" data-wing="synthetic">
+        <div class="work-gallery">
+          <div class="mono-text section-label mb-2">02 // SYNTHETIC ARCHIVE</div>
+          <div class="projects-grid">
+            <div class="project-card fade-up" data-signal="synthetic">
+              <div class="project-media-wrapper">
+                <div class="project-scanline"></div>
+                <img src="/yandex_campaign.png" alt="Yandex Autonomous Campaign" class="project-media" />
+                <div class="project-data-hud mono-text">
+                  <div>CLIENT: YANDEX</div>
+                  <div>SYNT_LVL: 98%</div>
+                </div>
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">ENTERPRISE BROADCAST</h3>
+                <p class="mono-text dim">GENERATIVE VIDEO &amp; IMAGE FOR LARGE-SCALE BRAND CAMPAIGNS.</p>
+              </div>
+            </div>
+            <div class="project-card fade-up delay-1" data-signal="synthetic">
+              <div class="project-media-wrapper">
+                <div class="project-scanline"></div>
+                <img src="/baltika_motion.png" alt="Baltika Commercial Motion" class="project-media" />
+                <div class="project-data-hud mono-text">
+                  <div>CLIENT: BALTIKA</div>
+                  <div>SYNT_LVL: 94%</div>
+                </div>
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">COMMERCIAL MOTION</h3>
+                <p class="mono-text dim">AI-DRIVEN PRODUCT &amp; LIFESTYLE SYNTHESIS FOR FMCG.</p>
+              </div>
+            </div>
+            <div class="project-card fade-up delay-2" data-signal="synthetic">
+              <div class="project-media-wrapper">
+                <div class="project-scanline"></div>
+                <img src="/sber_futures.png" alt="Sber Futures Digital Core" class="project-media" />
+                <div class="project-data-hud mono-text">
+                  <div>CLIENT: SBER</div>
+                  <div>SYNT_LVL: 96%</div>
+                </div>
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">FINANCIAL FUTURES</h3>
+                <p class="mono-text dim">SYNTHETIC VISUAL SYSTEMS FOR TECH &amp; FINANCE SECTOR.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PHYSICAL HUB -->
+      <section class="viewport-section" id="physical-hub" data-wing="physical">
+        <div class="center-content">
+          <div class="mono-text section-label">WING.B // PHYSICAL</div>
+          <h2 class="medium-title">LANDSCAPE &amp;<br />CONSTRUCTION</h2>
+          <p class="mono-text dim body-text max-w">Precision design from drone survey to built environment — Sweden &amp;
+            Russia.</p>
+        </div>
+      </section>
+
+      <!-- PHYSICAL WORK -->
+      <section class="viewport-section section-tall" id="work-physical" data-wing="physical">
+        <div class="work-gallery physical-gallery">
+          <div class="mono-text section-label mb-2">02 // PHYSICAL ARCHIVE</div>
+          <div class="projects-grid projects-grid-physical">
+
+            <article class="project-card physical-card fade-up" data-project="djursholm">
+              <div class="ba-slider" data-before="/portfolio/images/djursholm/photo_24_2024-03-28_14-44-34.jpg"
+                data-after="/portfolio/images/djursholm/photo_30_2024-03-28_14-44-34.jpg">
+                <img class="ba-after" src="/portfolio/images/djursholm/photo_30_2024-03-28_14-44-34.jpg" alt="After" />
+                <div class="ba-before-wrap">
+                  <img class="ba-before" src="/portfolio/images/djursholm/photo_24_2024-03-28_14-44-34.jpg" alt="Before" />
+                </div>
+                <input type="range" class="ba-range" min="0" max="100" value="50" aria-label="Before after slider" />
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">DJURSHOLM</h3>
+                <p class="mono-text dim">STOCKHOLM COUNTY — LUXURY RESIDENTIAL LANDSCAPE.</p>
+              </div>
+            </article>
+
+            <article class="project-card physical-card fade-up delay-1" data-project="dalaro">
+              <div class="ba-slider" data-before="/portfolio/images/dalaro/DJI_0728.JPG"
+                data-after="/portfolio/images/dalaro/photo_2_2024-03-28_14-50-12.jpg">
+                <img class="ba-after" src="/portfolio/images/dalaro/photo_2_2024-03-28_14-50-12.jpg" alt="After" />
+                <div class="ba-before-wrap">
+                  <img class="ba-before" src="/portfolio/images/dalaro/DJI_0728.JPG" alt="Before" />
+                </div>
+                <input type="range" class="ba-range" min="0" max="100" value="50" aria-label="Before after slider" />
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">DALARÖ</h3>
+                <p class="mono-text dim">STOCKHOLM ARCHIPELAGO — COASTAL TRANSFORMATION.</p>
+              </div>
+            </article>
+
+            <article class="project-card physical-card fade-up delay-2" data-project="varmdo">
+              <div class="ba-slider" data-before="/portfolio/images/varmdo/varmdo2_before.png"
+                data-after="/portfolio/images/varmdo/varmdo1_After.jpg">
+                <img class="ba-after" src="/portfolio/images/varmdo/varmdo1_After.jpg" alt="After" />
+                <div class="ba-before-wrap">
+                  <img class="ba-before" src="/portfolio/images/varmdo/varmdo2_before.png" alt="Before" />
+                </div>
+                <input type="range" class="ba-range" min="0" max="100" value="50" aria-label="Before after slider" />
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">VÄRMDÖ</h3>
+                <p class="mono-text dim">WATERFRONT TERRACED GARDENS &amp; OUTDOOR LIVING.</p>
+              </div>
+            </article>
+
+            <article class="project-card physical-card fade-up" data-project="ruza">
+              <div class="ba-slider" data-before="/portfolio/images/ruza/ruza1_Before.jpg"
+                data-after="/portfolio/images/ruza/ruza0_after.png">
+                <img class="ba-after" src="/portfolio/images/ruza/ruza0_after.png" alt="After" />
+                <div class="ba-before-wrap">
+                  <img class="ba-before" src="/portfolio/images/ruza/ruza1_Before.jpg" alt="Before" />
+                </div>
+                <input type="range" class="ba-range" min="0" max="100" value="50" aria-label="Before after slider" />
+              </div>
+              <div class="project-info mt-4">
+                <h3 class="small-title">RUZA</h3>
+                <p class="mono-text dim">MOSCOW OBLAST — PRIVATE ESTATE LANDSCAPE.</p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════
+           PORTFOLIO — full integrated gallery
+           ═══════════════════════════════════════════════════════ -->
+      <section id="portfolio" class="portfolio-section" data-wing="shared">
+        <div class="portfolio-header">
+          <div class="mono-text section-label">03 // PHYSICAL ARCHIVE</div>
+          <h2 class="medium-title">FULL PORTFOLIO</h2>
+          <p class="body-text">Every project — explore by location or scroll the complete archive.</p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="portfolio-filter-tabs" role="tablist" aria-label="Portfolio categories">
+          <button class="pf-tab active" data-filter="djursholm" role="tab" aria-selected="true">Djursholm</button>
+          <button class="pf-tab" data-filter="dalaro" role="tab">Dalarö</button>
+          <button class="pf-tab" data-filter="varmdo" role="tab">Värmdö</button>
+          <button class="pf-tab" data-filter="ruza" role="tab">Ruza</button>
+          <button class="pf-tab" data-filter="stallarholmen" role="tab">Stallarholmen</button>
+          <button class="pf-tab" data-filter="eco-hotel" role="tab">Eco Hotel</button>
+          <button class="pf-tab" data-filter="crimea" role="tab">Crimea</button>
+        </div>
+
+        <!-- Masonry grid — populated by portfolio.js -->
+        <div class="portfolio-masonry" id="pf-masonry" aria-live="polite"></div>
+      </section>
+
+      <!-- SERVICES (shared) -->
+      <section class="viewport-section section-tall" id="services" data-wing="shared">
+        <div class="services-split">
+          <div class="service-column" data-column="synthetic">
+            <div class="mono-text section-label">03.A // SYNTHETIC</div>
+            <h2 class="medium-title">AI STUDIO</h2>
+            <div class="services-list mt-4">
+              <div class="service-item mono-text"><span class="accent-text">></span> AI COMMERCIAL PRODUCTION</div>
+              <div class="service-item mono-text"><span class="accent-text">></span> GENERATIVE BRANDING</div>
+              <div class="service-item mono-text"><span class="accent-text">></span> 3D IMMERSIVE EXPERIENCES</div>
+              <div class="service-item mono-text"><span class="accent-text">></span> AGENTIC WORKFLOW AUTOMATION</div>
+            </div>
+          </div>
+          <div class="service-column" data-column="physical">
+            <div class="mono-text section-label">03.B // PHYSICAL</div>
+            <h2 class="medium-title">TERRA OPS</h2>
+            <div class="services-list mt-4">
+              <div class="service-item mono-text"><span class="accent-text physical-accent">></span> 3D DESIGN &amp; VISUALIZATION</div>
+              <div class="service-item mono-text"><span class="accent-text physical-accent">></span> DRONE SURVEY &amp; POINT CLOUD</div>
+              <div class="service-item mono-text"><span class="accent-text physical-accent">></span> PRECISION GNSS MAPPING</div>
+              <div class="service-item mono-text"><span class="accent-text physical-accent">></span> PROJECT MANAGEMENT &amp; BUILD</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT (shared) -->
+      <section class="viewport-section" id="contact" data-wing="shared">
+        <div class="center-content contact-container">
+          <h2 class="medium-title mb-2">ENGAGE THE PROTOCOL</h2>
+          <form id="telegram-form" class="glass-form">
+            <div class="input-group">
+              <input type="text" id="tg-name" placeholder="IDENTIFICATION (NAME)" required class="mono-text" />
+            </div>
+            <div class="input-group">
+              <select id="tg-type" class="mono-text" required>
+                <option value="">SELECT SIGNAL TYPE</option>
+                <option value="synthetic">COMMERCIAL AI</option>
+                <option value="physical">LANDSCAPE / CONSTRUCTION</option>
+                <option value="both">BOTH / HYBRID</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <textarea id="tg-message" placeholder="ENTER DIRECTIVE..." required class="mono-text"></textarea>
+            </div>
+            <button type="submit" class="btn-terminal mono-text" id="tg-submit">[ TRANSMIT VIA TELEGRAM ]</button>
+            <div id="tg-status" class="mono-text mt-4 dim"></div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="loading-overlay" id="loading">
+      <div class="caption-text">Loading studio</div>
+    </div>
+  </div>
+
+  <div class="visor-shutter top-shutter"></div>
+  <div class="visor-shutter bottom-shutter"></div>
+
+  <div id="video-overlay" class="hidden">
+    <video id="showreel-video" src="https://media.w3.org/2010/05/sintel/trailer.mp4" loop playsinline></video>
+    <button type="button" class="btn-terminal close-video">Close</button>
+  </div>
+
+  <div id="manifesto-overlay" class="hidden">
+    <div class="manifesto-content">
+      <div class="mono-text section-label">MSCW // PROTOCOL</div>
+      <h2 class="medium-title">OUR MANIFESTO</h2>
+      <div class="manifesto-body mono-text">
+        <p class="scramble-text" data-text="WE ARCHITECT SIGNAL AND SOIL.">WE ARCHITECT SIGNAL AND SOIL.</p>
+        <p class="scramble-text" data-text="FROM GNSS COORDINATES TO GENERATIVE FRAMES.">FROM GNSS COORDINATES TO GENERATIVE FRAMES.</p>
+        <p class="scramble-text" data-text="THE FUTURE IS ENGINEERED — IN PIXELS AND IN STONE.">THE FUTURE IS ENGINEERED — IN PIXELS AND IN STONE.</p>
+        <p class="scramble-text" data-text="ART IS THE NOISE. WE ARE THE SIGNAL.">ART IS THE NOISE. WE ARE THE SIGNAL.</p>
+      </div>
+      <button type="button" class="btn-terminal close-manifesto">Close</button>
+    </div>
+    <div class="data-stream-bg"></div>
+  </div>
+
+  <!-- ── Lightbox Modal ────────────────────────────────── -->
+  <div id="pf-modal" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <button class="pf-modal-close" id="pf-modal-close" aria-label="Close">&times;</button>
+    <button class="pf-modal-prev" id="pf-modal-prev" aria-label="Previous image">&#8592;</button>
+    <button class="pf-modal-next" id="pf-modal-next" aria-label="Next image">&#8594;</button>
+    <div class="pf-modal-category" id="pf-modal-category"></div>
+    <div class="pf-modal-inner">
+      <div class="pf-modal-counter" id="pf-modal-counter"></div>
+      <img id="pf-modal-img" src="" alt="Portfolio image" />
+      <p class="pf-modal-caption" id="pf-modal-caption"></p>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
