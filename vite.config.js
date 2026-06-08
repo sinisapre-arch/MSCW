@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/MSCW/',
+  base: './', // Changed from '/' to './' to support GitHub Pages subfolders
   server: {
     host: '127.0.0.1',
     port: 5180,
